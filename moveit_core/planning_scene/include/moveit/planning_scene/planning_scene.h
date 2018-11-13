@@ -401,24 +401,35 @@ public:
 
     bool flag = true;
 
+    // if(useVisionConstraint)
+    // {
+    //   addUnobstructedVision(kstate,visionPoint,"vision_rectangle");
+    //   kstate.update();
+    // }
+    // if(useGlobalVisionConstraint)
+    // {
+    //   addUnobstructedVision(kstate,visionPoint,"global_vision_rectangle");
+    //   kstate.update();
+    // }
+
     if(useVisionConstraint)
     {
       if(checkInView(kstate))
-      {
-        flag = true;
-        addUnobstructedVision(kstate,visionPoint,"vision_rectangle");
-        kstate.update();
-      }
+        {
+          flag = true;
+          addUnobstructedVision(kstate,visionPoint,"vision_rectangle");
+          kstate.update();
+        }
 
-      else
-      {
-        flag = false;
-        res.collision = true;
-      }
+        else
+        {
+          flag = false;
+          res.collision = true;
+        }
     }
 
 
-    if(useGlobalVisionConstraint)
+    if(useGlobalVisionConstraint && flag)
     {
       if(checkGlobalInView(kstate))
       {
@@ -440,6 +451,28 @@ public:
       checkCollision(req, res, static_cast<const robot_state::RobotState&>(kstate));
     }
     kstate.clearAttachedBodies();
+
+    //std::cout<<"We are located here\n";
+
+    // if (!res.collision || (req.contacts && res.contacts.size() < req.max_contacts))
+    // {
+    //   if(useVisionConstraint)
+    //   {
+    //     if(!checkInView(kstate))
+    //     {
+    //       res.collision = true;
+    //     }
+    //   }
+
+    //   if(useGlobalVisionConstraint)
+    //   {
+    //     if(!checkGlobalInView(kstate))
+    //     {
+    //       res.collision = true;
+    //     }
+    //   }
+    // }
+
   }
 
   /** \brief Check whether a specified state (\e kstate) is in collision. The collision transforms of \e kstate are
@@ -1042,8 +1075,8 @@ public:
                                       const Eigen::Vector3d& lineDir, 
                                       const Eigen::Vector3d& pnt) const;
 
-  /*moveit_msgs::CollisionObject*/ void addUnobstructedVision(robot_state::RobotState& kstate, Eigen::Vector3d camPoint, std::string obj_name) const;
-  /*moveit_msgs::CollisionObject*/ void removeUnobstructedVision(void); //TODO: Remove this method. It doesn't do anything
+  moveit_msgs::CollisionObject addUnobstructedVision(robot_state::RobotState& kstate, Eigen::Vector3d camPoint, std::string obj_name) const;
+  moveit_msgs::CollisionObject removeUnobstructedVision(void); //TODO: Remove this method. It doesn't do anything
 
 private:
   /* Private constructor used by the diff() methods. */

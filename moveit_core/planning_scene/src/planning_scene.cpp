@@ -593,7 +593,7 @@ bool PlanningScene::checkGlobalInView(const robot_state::RobotState& kstate) con
 
 //Adds a prism to the environment to simulate a clean path to the point
 
-/*moveit_msgs::CollisionObject*/void PlanningScene::addUnobstructedVision(robot_state::RobotState& kstate, Eigen::Vector3d camPoint, std::string obj_name) const
+moveit_msgs::CollisionObject PlanningScene::addUnobstructedVision(robot_state::RobotState& kstate, Eigen::Vector3d camPoint, std::string obj_name) const
 {
   //Tariq edit->maybe consider removing this update call?
   kstate.update();
@@ -730,10 +730,10 @@ bool PlanningScene::checkGlobalInView(const robot_state::RobotState& kstate) con
 
   //TODO: Remove following? It's unnecessary... I think
 
-  //return vision_rectangle;
+  return vision_rectangle;
 }
 
-/*moveit_msgs::CollisionObject*/void PlanningScene::removeUnobstructedVision(void)
+moveit_msgs::CollisionObject PlanningScene::removeUnobstructedVision(void)
 {
   moveit_msgs::CollisionObject vision_rectangle;
   vision_rectangle.id = "vision_rectangle";
@@ -743,7 +743,7 @@ bool PlanningScene::checkGlobalInView(const robot_state::RobotState& kstate) con
 
   //TODO: Remove following? It's unnecessary... I think
 
-  //return vision_rectangle;
+  return vision_rectangle;
 }
 
 
